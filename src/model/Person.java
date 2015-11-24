@@ -28,7 +28,7 @@ public class Person {
         return genero;
     }
 
-    public float getPeso() {
+    public Float getPeso() {
         return peso;
     }
 }

@@ -3,7 +3,6 @@ package application;
 import model.Histogram;
 import model.HistogramBuilder;
 import model.Person;
-import persistance.PersonReader;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,17 +15,16 @@ public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
 
-        PersonReader personReader = new SQLiteDomainReader();
-        List<Person> people = personReader.getPeople();
+        List<Person> people = new SQLiteDomainReader().getPeople();
 
         HistogramBuilder<Person> builder = new HistogramBuilder<>(people);
         Histogram<String> domains = builder.build(person -> person.getMail().split("@")[1]);
         Histogram<String> genero = builder.build(Person::getGenero);
         Histogram<Float> peso = builder.build(Person::getPeso);
 
-        new HistogramDisplay<>(domains).setVisible(true);
-        new HistogramDisplay<>(genero).setVisible(true);
-        new HistogramDisplay<>(peso).setVisible(true);
+        new HistogramDisplay<>(domains, "Domains").setVisible(true);
+        new HistogramDisplay<>(genero, "Género").setVisible(true);
+        new HistogramDisplay<>(peso, "Peso").setVisible(true);
 
     }
 }
